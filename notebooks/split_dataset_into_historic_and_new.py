@@ -1,6 +1,6 @@
 import pandas as pd
 
-csv_path = "./data/raw/trainset.csv"
+csv_path = "../data/raw/trainset.csv"
 
 
 df = pd.read_csv(csv_path)
