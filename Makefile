@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = ml pipeline insurance customer
+PROJECT_NAME = ml-pipeline-insurance-customer
 PYTHON_VERSION = 3.12
 PYTHON_INTERPRETER = python
 
@@ -65,10 +65,8 @@ test:
 create_environment:
 	
 	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
-	
-	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
-	
 
+	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 
 
 #################################################################################
