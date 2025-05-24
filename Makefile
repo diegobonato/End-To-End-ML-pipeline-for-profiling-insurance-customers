@@ -63,11 +63,10 @@ test:
 ## Set up Python interpreter environment
 .PHONY: create_environment
 create_environment:
-	conda env create -f environment.yml
-	@echo ">>> conda env created. Activate with:\nconda activate $(shell grep name environment.yml | cut -d' ' -f2)"
+	
+	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
 
-	
-	
+	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
 
 
 #################################################################################
