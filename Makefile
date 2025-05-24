@@ -2,7 +2,7 @@
 # GLOBALS                                                                       #
 #################################################################################
 
-PROJECT_NAME = ml pipeline insurance customer
+PROJECT_NAME = ml-pipeline-insurance-customer
 PYTHON_VERSION = 3.12
 PYTHON_INTERPRETER = python
 
