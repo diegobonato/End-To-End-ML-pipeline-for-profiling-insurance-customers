@@ -25,6 +25,9 @@ dependencies = [
     "ruff",
     "tqdm",
     "typer",
+    "pandas",
+    "scikit-learn",
+    "numpy",
 ]
 requires-python = "~=3.12.0"
 
