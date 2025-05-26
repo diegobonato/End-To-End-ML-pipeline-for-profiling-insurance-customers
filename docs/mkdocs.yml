@@ -2,3 +2,6 @@ site_name: end_to_end_pipeline
 # 
 site_author: XRD Group
 # 
+
+theme:
+  name: material
