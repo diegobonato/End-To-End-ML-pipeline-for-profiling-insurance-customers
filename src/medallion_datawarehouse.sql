@@ -4,5 +4,3 @@
 
 CREATE SCHEMA IF NOT EXISTS bronze;
 CREATE SCHEMA silver;
-
--- test
