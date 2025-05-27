@@ -30,10 +30,16 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install .  
+        pip install pytest-cov
 
     - name: Lint with Ruff
       run: |
         ruff check --exit-non-zero-on-fix
     - name: Run tests
       run: |
-        pytest
+        pytest --cov --cov-branch --cov-report=xml
+        
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
