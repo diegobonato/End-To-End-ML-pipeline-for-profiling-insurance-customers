@@ -13,7 +13,7 @@ conn = psycopg2.connect(
 with conn.cursor() as cur:
     cur.execute("TRUNCATE TABLE bronze.insurance;")
 
-    with open("../data/raw/historic_dataset.csv", "r") as f:
+    with open("../../data/raw/historic_dataset.csv", "r") as f:
         cur.copy_expert(
             """
             COPY bronze."insurance" (
