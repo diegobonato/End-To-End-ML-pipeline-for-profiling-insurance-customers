@@ -26,6 +26,7 @@ dependencies = [
     "tqdm",
     "typer",
     "mkdocs-material",
+    "psycopg2",
 ]
 requires-python = "~=3.12.0"
 
