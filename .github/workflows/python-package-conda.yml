@@ -30,6 +30,7 @@ jobs:
       run: |
         # conda env update --file environment.yml --name base
         make create_environment
+        conda init
         conda activate ml-pipeline-insurance-customer
         make requirements
     - name: Lint 
