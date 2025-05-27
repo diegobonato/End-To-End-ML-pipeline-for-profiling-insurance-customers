@@ -1,7 +1,7 @@
 -- The correct syntax in PostgreSQL is the following, not IF OBJECT_ID (...) EXISTS etc.
-DROP TABLE IF EXISTS bronze.Insurance;
+DROP TABLE IF EXISTS bronze.insurance;
 
-CREATE TABLE bronze.Insurance (
+CREATE TABLE bronze.insurance (
     ID                          INTEGER PRIMARY KEY,
     Insurance_Coverage_Days     INTEGER,
     Insured_Age                 INTEGER,
