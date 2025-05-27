@@ -34,8 +34,7 @@ jobs:
 
     - name: Lint with Ruff
       run: |
-        ruff check . --exit-code 1
-
+        ruff check --exit-non-zero-on-fix
     - name: Run tests
       run: |
         pytest
