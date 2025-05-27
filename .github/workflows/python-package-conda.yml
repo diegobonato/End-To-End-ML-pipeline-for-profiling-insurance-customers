@@ -13,33 +13,29 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -el {0}
-    strategy:
-      max-parallel: 1
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Miniconda with Python 3.12
+      uses: conda-incubator/setup-miniconda@v3
       with:
-        python-version: '3.12'
-    - name: Add conda to system path
+        python-version: 3.12
+        activate-environment: ml-pipeline-insurance-customer
+        auto-activate-base: false
+        auto-update-conda: true
+
+    - name: Install dependencies from pyproject.toml
       run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-    - name: Install dependencies
+        pip install --upgrade pip
+        pip install .  # install your package and dependencies
+        pip install pytest ruff  # install testing and linting tools
+
+    - name: Lint with Ruff
       run: |
-        # conda env update --file environment.yml --name base
-        make create_environment
-        conda init
-        conda activate ml-pipeline-insurance-customer
-        make requirements
-    - name: Lint 
-      run: |
-        # Fail the build on any linting error
         ruff check . --exit-code 1
-    - name: Test with pytest
+
+    - name: Run tests
       run: |
-        make test
+        pytest
