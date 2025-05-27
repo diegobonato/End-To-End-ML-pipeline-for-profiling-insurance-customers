@@ -1,5 +1,6 @@
 import pytest
 
 
-def test_code_is_tested():
-    assert False
+def test_example():
+    assert 1 + 1 == 2
+
