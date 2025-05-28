@@ -1,0 +1,8 @@
+comment:
+     layout: "header, files, footer" # remove "new" from "header" and "footer"
+     hide_project_coverage: false
+
+coverage:
+  range: 60..80
+  round: down
+  precision: 2

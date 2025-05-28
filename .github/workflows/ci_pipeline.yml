@@ -1,0 +1,45 @@
+name: ci-pipeline
+
+on: 
+  pull_request:
+  push:
+      branches: [main]
+      paths:
+        - ".github/workflows/*"
+        - "policyML/**"
+        - "tests/**"
+        - "Makefile"
+        - "pyproject.toml"
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Miniconda with Python 3.12
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: 3.12
+        activate-environment: ml-pipeline-insurance-customer
+        auto-activate-base: false
+        auto-update-conda: true
+
+    - name: Install dependencies from pyproject.toml
+      run: |
+        pip install --upgrade pip
+        pip install .  
+        pip install pytest-cov
+
+    - name: Lint with Ruff
+      run: |
+        ruff check --exit-non-zero-on-fix
+    - name: Run tests
+      run: |
+        pytest --cov --cov-branch --cov-report=xml
+        
+    - name: Upload results to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
