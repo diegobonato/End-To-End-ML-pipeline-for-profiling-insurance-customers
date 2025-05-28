@@ -2,7 +2,7 @@
 
 ## Description
 
-A short description of the project.
+XRD siamo LIVE!!!
 
 ## Commands
 
