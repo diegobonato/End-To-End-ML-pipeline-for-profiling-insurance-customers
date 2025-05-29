@@ -41,4 +41,4 @@ print("Data loaded successfully via psycopg2.")
 with conn.cursor() as cur:
     cur.execute("SELECT COUNT(*) FROM bronze.insurance;")
     count = cur.fetchone()[0]
-    assert count == 25000
+    assert count == 25_000
