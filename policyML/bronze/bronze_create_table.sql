@@ -1,4 +1,8 @@
 -- The correct syntax in PostgreSQL is the following, not IF OBJECT_ID (...) EXISTS etc.
+
+-- Connect to the db
+\connect datawarehouse;
+
 DROP TABLE IF EXISTS bronze.insurance;
 
 CREATE TABLE bronze.insurance (
