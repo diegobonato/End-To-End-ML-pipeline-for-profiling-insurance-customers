@@ -4,7 +4,11 @@ It connects to a PostgreSQL database and truncates the existing table before loa
 
 """
 
+from pathlib import Path
+
 import psycopg2
+
+path = Path(__file__).parents[2]  # set path to the root of the project
 
 
 def get_db_connection(
@@ -27,7 +31,25 @@ def get_db_connection(
     return conn
 
 
-def load_bronze_data(conn, csv_path="../../data/raw/historic_dataset.csv"):
+def create_bronze_insurance_table(conn):
+    """
+    Drops the 'bronze.insurance' table if it exists and creates it with the specified schema.
+
+    Args:
+        conn: A psycopg2 database connection object.
+
+    Returns:
+        None
+    """
+
+    with conn.cursor() as cur:
+        cur.execute(open(path / "policyML/bronze/bronze_create_table.sql", "r").read())
+
+    conn.commit()
+    print("Table 'bronze.insurance' created successfully.")
+
+
+def load_bronze_data(conn, csv_path=path / "data/raw/historic_dataset.csv"):
     """
     Truncates the bronze.insurance table and loads data from a CSV file into it.
 
@@ -68,11 +90,13 @@ def load_bronze_data(conn, csv_path="../../data/raw/historic_dataset.csv"):
 # check if the data was loaded correctly with psycopg2
 def main():
     conn = get_db_connection()
+    create_bronze_insurance_table(conn)
     load_bronze_data(conn)
 
     with conn.cursor() as cur:
         cur.execute("SELECT COUNT(*) FROM bronze.insurance;")
         count = cur.fetchone()[0]
+        conn.close()
         assert count == 25_000
 
 
