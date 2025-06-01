@@ -1,10 +1,13 @@
 import pytest
 import psycopg2
-from policyML.bronze.bronze import get_db_connection, load_bronze_data
+from policyML.bronze.bronze import (
+    get_db_connection,
+    load_bronze_data,
+    create_bronze_insurance_table,
+)
 
 
 def test_connection():
-
     try:
         conn = get_db_connection()
         conn.close()
@@ -14,17 +17,16 @@ def test_connection():
 
 
 def test_load_bronze_data():
+    conn = get_db_connection()
+    create_bronze_insurance_table(conn)
     try:
-        conn = get_db_connection()
-        with conn.cursor() as cur:
-            cur.execute(open("../policyML/medallion_datawarehouse.sql", "r").read())
-            cur.execute(open("../policyML/bronze/bronze_create_table.sql", "r").read())
-
-        load_bronze_data(conn, csv_path="../data/raw/historic_dataset.csv")
+        load_bronze_data(conn)
         conn.close()
         assert True
     except Exception as e:
+        conn.close()
         assert False, f"Data loading failed: {e}"
+
 
 def test_data_integrity():
     try:
