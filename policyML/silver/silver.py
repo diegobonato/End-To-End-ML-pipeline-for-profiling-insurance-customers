@@ -1,44 +1,46 @@
 """
 This script loads data into the silver layer of the data warehouse.
-It connects to a PostgreSQL database and truncates the existing table before loading new data from the CSV file.
+It connects to a PostgreSQL database and truncates the existing table before loading new data from the bronze table
+and performing the mapping of categorical variables.
 
 """
 
-import psycopg2
+from pathlib import Path
 
-conn = psycopg2.connect(
-    dbname="datawarehouse", user="postgres", password="postgres", host="localhost", port="5432"
-)
+from policyML.bronze.bronze import get_db_connection
 
-with conn.cursor() as cur:
-    cur.execute("TRUNCATE TABLE silver.insurance;")
+path = Path(__file__).parents[2]  # set path to the root of the project
 
-    with open("../../data/raw/historic_dataset.csv", "r") as f:
-        cur.copy_expert(
-            """
-            COPY silver."insurance" (
-                ID, Insurance_Coverage_Days, Insured_Age, Insured_Sex, Insured_Status, Insured_NoClaimYears,
-                Insured_CreditScore, Insured_RegionID, Insured_DriveArea, Car_Use, Car_Age, AnnualDrive_km,
-                TotDrive_km, Drive_Avgdays_week, Drive_TimeOnRoad_pct, Drive_Mon_pct, Drive_Tue_pct,
-                Drive_Wed_pct, Drive_Thr_pct, Drive_Fri_pct, Drive_Sat_pct, Drive_Sun_pct, Drive_2hrs_pct,
-                Drive_3hrs_pct, Drive_4hrs_pct, Drive_Wkday_pct, Drive_Wkend_pct, Drive_RushAM_pct,
-                Drive_RushPM_pct, Accel_03ms2_1000km, Accel_04ms2_1000km, Accel_05ms2_1000km,
-                Accel_06ms2_1000km, Accel_07ms2_1000km, Brake_03ms2_1000km, Brake_04ms2_1000km,
-                Brake_05ms2_1000km, Brake_06ms2_1000km, Brake_07ms2_1000km, LeftTurn_Low_1000km,
-                LeftTurn_Med_1000km, LeftTurn_High_1000km, RightTurn_Low_1000km, RightTurn_Med_1000km,
-                RightTurn_High_1000km, AMT_Claim, NB_Claim
-            )
-            FROM STDIN WITH CSV HEADER
-        """,
-            f,
-        )
+
+def create_silver_insurance_table(conn):
+    """
+    Drops the 'silver.insurance' table if it exists and creates it with the specified schema.
+
+    Args:
+        conn: A psycopg2 database connection object.
+
+    Returns:
+        None
+    """
+
+    with conn.cursor() as cur:
+        cur.execute(open(path / "policyML/silver/silver_create_table.sql", "r").read())
+
     conn.commit()
+    print("Table 'silver.insurance' created successfully.")
 
-print("Data loaded successfully via psycopg2.")
+
+def main():
+    conn = get_db_connection()
+    create_silver_insurance_table(conn)
+
+    with conn.cursor() as cur:
+        cur.execute("SELECT COUNT(*) FROM silver.insurance;")
+        count = cur.fetchone()[0]
+        conn.close()
+        assert count == 25_000
 
 
-# check if the data was loaded correctly with psycopg2
-with conn.cursor() as cur:
-    cur.execute("SELECT COUNT(*) FROM silver.insurance;")
-    count = cur.fetchone()[0]
-    assert count == 25000
+if __name__ == "__main__":
+    main()
+    print("Silver layer loaded successfully.")
