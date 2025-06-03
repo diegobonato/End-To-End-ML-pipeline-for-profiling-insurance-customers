@@ -10,6 +10,7 @@
    jobs:
      pre_install:
        - pip install mkdocs-material
+       - pip install mkapi
 
  mkdocs:
    configuration: docs/mkdocs.yml
