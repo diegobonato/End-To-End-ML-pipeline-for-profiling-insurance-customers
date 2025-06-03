@@ -1,15 +1,9 @@
 /*
 Script to Create Database and Schemas - run this script in the docker container where the server is running
 in the docker container terminal:
-docker exec -it <container_id> 
-psql -U postgres -d postgres 
-
-The correct docker command is: 
-# The -i is fundamental to allow input from the terminal inside the container
 
 docker exec -i <container_id> psql -U postgres -d postgres < policyML/medallion_datawarehouse.sql 
-
-
+# The -i is fundamental to allow input from the terminal inside the container
 --
     This script creates a new database named 'DataWarehouse' after checking if it already exists. 
     If the database exists, it is dropped and recreated. Additionally, the script sets up three schemas 

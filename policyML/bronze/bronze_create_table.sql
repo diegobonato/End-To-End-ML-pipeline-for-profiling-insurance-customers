@@ -1,5 +1,5 @@
 -- The correct syntax in PostgreSQL is the following, not IF OBJECT_ID (...) EXISTS etc.
-
+-- docker exec -i <container_id> psql -U postgres -d postgres < policyML/bronze/bronze_create_table.sql 
 -- Connect to the db
 --\connect datawarehouse;
 
