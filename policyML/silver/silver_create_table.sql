@@ -1,4 +1,5 @@
 -- The correct syntax in PostgreSQL is the following, not IF OBJECT_ID (...) EXISTS etc.
+--docker exec -i f4207a7817b3 psql -U postgres -d postgres < silver_create_table.sql 
 --\connect datawarehouse;
 DROP TABLE IF EXISTS silver.insurance;
 CREATE SCHEMA IF NOT EXISTS silver;
