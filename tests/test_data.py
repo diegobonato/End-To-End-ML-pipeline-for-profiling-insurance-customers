@@ -1,9 +1,12 @@
+import pytest
+import psycopg2
 from policyML.bronze.bronze import (
     get_db_connection,
     load_bronze_data,
     create_bronze_insurance_table,
 )
 from policyML.silver.silver import create_silver_insurance_table
+
 
 
 def test_connection():
@@ -37,7 +40,6 @@ def test_data_integrity():
         conn.close()
     except Exception as e:
         assert False, f"Data integrity check failed: {e}"
-
 
 def test_silver_layer():
     try:
