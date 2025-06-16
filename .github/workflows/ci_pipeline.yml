@@ -44,7 +44,7 @@ jobs:
 
     - name: Lint with Ruff
       run: |
-        ruff check --exit-non-zero-on-fix
+        ruff check --output-format=github .
     - name: Run tests
       run: |
         pytest --cov --cov-branch --cov-report=xml
