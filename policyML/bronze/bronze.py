@@ -5,6 +5,7 @@ It connects to a PostgreSQL database and truncates the existing table before loa
 """
 
 from pathlib import Path
+
 import psycopg2
 
 path = Path(__file__).parents[2]  # set path to the root of the project
