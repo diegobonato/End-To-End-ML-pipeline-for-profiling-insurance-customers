@@ -6,6 +6,7 @@ from policyML.bronze.bronze import (
     create_bronze_insurance_table,
 )
 from policyML.silver.silver import create_silver_insurance_table
+from policyML.gold.gold import create_gold_insurance_tables
 
 
 def test_connection():
@@ -56,7 +57,9 @@ def test_silver_layer():
 
 def test_gold_layer():
     try:
+
         conn = get_db_connection()
+        create_gold_insurance_tables(conn)
         with conn.cursor() as cur:
             cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'gold';")
             tables = cur.fetchall()
