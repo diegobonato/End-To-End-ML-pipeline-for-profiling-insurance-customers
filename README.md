@@ -1,6 +1,11 @@
 # End-To-End-ML-pipeline-for-profiling-insurance-customers
 End To End ML pipeline for profiling insurance customers
 
+## Data Warehouse
+
+![alt text](reports/figures/warehouse.png "Warehouse")
+
+
 -------- 
 ## Project Organization
 
