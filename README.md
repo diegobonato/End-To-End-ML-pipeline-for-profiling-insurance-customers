@@ -1,9 +1,8 @@
 # End-To-End-ML-pipeline-for-profiling-insurance-customers
-End To End ML pipeline for profiling insurance customers
 
 ## Data Warehouse
-
-![alt text](reports/figures/warehouse.png "Warehouse")
+This project implements a comprehensive machine learning pipeline for profiling insurance customers. We designed and built a data warehouse using the Medallion architecture (Bronze, Silver, Gold layers) to ensure robust data ingestion, transformation, and analytics. The Medallion schema enables scalable, reliable, and maintainable data workflows, supporting the end-to-end ML lifecycle from raw data collection to advanced modeling and reporting.
+![alt text](docs/docs/figures/warehouse.png "Warehouse")
 
 
 -------- 
