@@ -8,7 +8,7 @@ The data warehouse is structured into three layers:
 - The Silver layer performs essential transformations, including data cleaning, feature engineering, and aggregation, to prepare the data for the ML models. 
 - The Gold layer provides curated tables optimized for reporting and analysis, enabling stakeholders to derive insights from the data efficiently.
 
-![alt text](docs/docs/figures/warehouse.png "Warehouse")
+![alt text](figures/warehouse.png "Warehouse")
 
 
 -------- 

@@ -4,11 +4,13 @@ It connects to a PostgreSQL database and truncates the existing table before loa
 
 """
 
+import logging
 from pathlib import Path
 
 import psycopg2
 
 path = Path(__file__).parents[2]  # set path to the root of the project
+logger = logging.getLogger(__name__)
 
 
 def get_db_connection(
@@ -46,7 +48,7 @@ def create_bronze_insurance_table(conn):
         cur.execute(open(path / "policyML/bronze/bronze_create_table.sql", "r").read())
 
     conn.commit()
-    print("Table 'bronze.insurance' created successfully.")
+    logger.info("Bronze insurance table created successfully.")
 
 
 def load_bronze_data(conn, csv_path=path / "data/raw/historic_dataset.csv"):
@@ -84,7 +86,7 @@ def load_bronze_data(conn, csv_path=path / "data/raw/historic_dataset.csv"):
             )
     conn.commit()
 
-    print("Data loaded successfully via psycopg2.")
+    logger.info("Bronze data loaded successfully into the bronze.insurance table.")
 
 
 # check if the data was loaded correctly with psycopg2
@@ -102,4 +104,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print("Bronze layer data loading completed successfully.")
