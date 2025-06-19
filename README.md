@@ -1,7 +1,13 @@
 # End-To-End-ML-pipeline-for-profiling-insurance-customers
 
 ## Data Warehouse
-This project implements a comprehensive machine learning pipeline for profiling insurance customers. We designed and built a data warehouse using the Medallion architecture (Bronze, Silver, Gold layers) to ensure robust data ingestion, transformation, and analytics. The Medallion schema enables scalable, reliable, and maintainable data workflows, supporting the end-to-end ML lifecycle from raw data collection to advanced modeling and reporting.
+This project implements a comprehensive ETL pipeline for profiling insurance customers. We designed and built a data warehouse using the Medallion architecture (Bronze, Silver, Gold layers) to ensure robust data ingestion, transformation, and analytics. The Medallion schema enables scalable, reliable, and maintainable data workflows, supporting the end-to-end ML lifecycle from raw data collection to advanced modeling and reporting.
+
+The data warehouse is structured into three layers:
+- The Bronze layer ingests raw data from CSV files, ensuring data integrity and traceability. 
+- The Silver layer performs essential transformations, including data cleaning, feature engineering, and aggregation, to prepare the data for the ML models. 
+- The Gold layer provides curated tables optimized for reporting and analysis, enabling stakeholders to derive insights from the data efficiently.
+
 ![alt text](docs/docs/figures/warehouse.png "Warehouse")
 
 
@@ -14,7 +20,6 @@ This project implements a comprehensive machine learning pipeline for profiling 
 ├── README.md          <- The top-level README 
 ├── data
 │   ├── processed      <- The final, canonical data sets for modeling.
-|   ├── interim        <- intermediate data
 │   └── raw            <- The original, immutable data dump.
 │
 ├── docs               <- A mkdocs project; see www.mkdocs.org for details
@@ -33,14 +38,30 @@ This project implements a comprehensive machine learning pipeline for profiling 
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
+├── compose.yml      <- Docker Compose file for running the project in a containerized environment including postgres server
 │
 └── policyML   <- Source code for use in this project.
     │
-    └── __init__.py             <- Makes policyML a Python module
-
+    ├── bronze        <- Bronze layer for raw data ingestion
+    │   ├── __init__.py
+    │   ├── bronze.py  <- Bronze layer ETL script
+    │   └── bronze_create_table.sql <- SQL script to create bronze layer table
+    │
+    ├── silver        <- Silver layer for data transformation
+    │   ├── __init__.py
+    │   ├── silver.py  <- Silver layer ETL script
+    │   └── silver_create_table.sql <- SQL script to create silver layer table
+    │
+    ├── gold          <- Gold layer for reporting and analytics
+    │   ├── __init__.py
+    │   ├── gold.py    <- Gold layer ETL script
+    │   └── gold_create_table.sql <- SQL script to create gold layer table
+    │
+    ...
+│
+└── tests              <- Unit tests for the project
+    ├── __init__.py
+    ├── test_data.py  <- Unit tests
 ```
 
 --------
