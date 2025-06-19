@@ -5,11 +5,15 @@ and performing the mapping of categorical variables.
 
 """
 
+import logging
 from pathlib import Path
 
 from policyML.bronze.bronze import get_db_connection
 
 path = Path(__file__).parents[2]  # set path to the root of the project
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def create_silver_insurance_table(conn):
@@ -27,7 +31,7 @@ def create_silver_insurance_table(conn):
         cur.execute(open(path / "policyML/silver/silver_create_table.sql", "r").read())
 
     conn.commit()
-    print("Table 'silver.insurance' created successfully.")
+    logger.info("Silver insurance table created successfully.")
 
 
 def main():
@@ -43,4 +47,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print("Silver layer loaded successfully.")

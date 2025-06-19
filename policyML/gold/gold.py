@@ -5,11 +5,14 @@ and creates the views for the gold layer.
 
 """
 
+import logging
 from pathlib import Path
 
 from policyML.bronze.bronze import get_db_connection
 
 path = Path(__file__).parents[2]  # set path to the root of the project
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def create_gold_insurance_tables(conn):
@@ -28,7 +31,7 @@ def create_gold_insurance_tables(conn):
         cur.execute(open(path / "policyML/gold/gold_create_table.sql", "r").read())
 
     conn.commit()
-    print("Tables created successfully.")
+    logger.info("Gold insurance tables created successfully.")
 
 
 def main():
@@ -44,7 +47,7 @@ def main():
         for table in tables:
             cur.execute(f"SELECT COUNT(*) FROM gold.{table[0]};")
             count = cur.fetchone()[0]
-            print(f"Table {table[0]} has {count} rows.")
+            logger.info(f"Table {table[0]} has {count} rows.")
         conn.close()
 
 
