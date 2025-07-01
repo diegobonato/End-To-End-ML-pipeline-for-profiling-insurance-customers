@@ -6,7 +6,7 @@ from policyML.bronze.bronze import (
     create_bronze_insurance_table,
 )
 from policyML.silver.silver import create_silver_insurance_table
-
+from policyML.gold.gold import create_gold_insurance_tables
 
 
 def test_connection():
@@ -41,6 +41,7 @@ def test_data_integrity():
     except Exception as e:
         assert False, f"Data integrity check failed: {e}"
 
+
 def test_silver_layer():
     try:
         conn = get_db_connection()
@@ -52,3 +53,21 @@ def test_silver_layer():
         conn.close()
     except Exception as e:
         assert False, f"Silver layer test failed: {e}"
+
+
+def test_gold_layer():
+    try:
+
+        conn = get_db_connection()
+        create_gold_insurance_tables(conn)
+        with conn.cursor() as cur:
+            cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'gold';")
+            tables = cur.fetchall()
+            assert len(tables) > 0, "No tables found in the gold schema."
+            for table in tables:
+                cur.execute(f"SELECT COUNT(*) FROM gold.{table[0]};")
+                count = cur.fetchone()[0]
+                assert count > 0, f"Table {table[0]} is empty."
+        conn.close()
+    except Exception as e:
+        assert False, f"Gold layer test failed: {e}"
