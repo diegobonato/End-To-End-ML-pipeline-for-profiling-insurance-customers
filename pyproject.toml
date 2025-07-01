@@ -32,6 +32,9 @@ dependencies = [
     "numpy",
     "mkdocs-material",
     "mkapi",
+    "matplotlib",
+    "seaborn",
+    "imblearn"
 ]
 
 requires-python = "~=3.12.0"
